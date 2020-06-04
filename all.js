@@ -8,13 +8,14 @@
         el: '#app',
         data: {
             data: {},
-            regions: [],
-            region: '全部',
+            regions: [], //所有區域列表
+            region: '全部', //選擇區域
             viewPoint: [], //同個區域的所有資料
             pageTotal: [], //總共有幾頁
-            viewPointPage: [], //縮小區域的資料
-            nowPage:'',
+            filterViewPoint: [], //縮小區域的資料
+            nowPage: '', //目前頁數
             maxResult: 6, //一頁顯示幾筆
+            searchStr: '',
         },
         mounted() {
             const url = 'https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97';
@@ -55,7 +56,7 @@
                     this.pageTotal.push(i)
                 }
             },
-            switchPage(num) {
+            switchPage(num) { //分頁控制
                 this.nowPage = num
                 if(this.nowPage<1){
                     this.nowPage = 1
@@ -68,13 +69,28 @@
                 if(maxRec >= this.viewPoint.length){ //如果不加=，假如資料9筆就不會觸發-1
                     maxRec = this.viewPoint.length-1 //最大不超過資料數，索引值需-1
                 }
-                this.viewPointPage=[]
+                this.filterViewPoint=[]
                 
                 for(let i=minRec; i<=maxRec; i++){
-                    this.viewPointPage.push(this.viewPoint[i])
+                    this.filterViewPoint.push(this.viewPoint[i])
                 }
                 // console.log(this.region, '總共'+this.viewPoint.length, '這頁顯示'+ this.viewPointPage.length, maxRec, minRec)
             },
+            searchData() {
+                this.viewPoint=[]
+                this.region = '搜尋---'+this.searchStr
+                this.data.records.forEach((item) => {
+                    const result = item.Name.indexOf(this.searchStr)
+                    if(result>-1){
+                        this.viewPoint.push(item)
+                    }
+                    
+                })
+                this.searchStr = ''   
+                this.creatPagination()
+                this.switchPage(1)//預設第一頁             
+            },
+
         },
     })
 })()

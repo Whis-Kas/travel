@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>高雄旅遊地圖</title>
+    <title>高雄旅遊網</title>
     <!-- CSS only -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
@@ -14,14 +14,20 @@
 <body>
 
     <div id="app">
-        <div class="container bg-header">
+        <div class="container-fluid bg-header">
             <h1>高雄旅遊網</h1>
             <select class="form-control" name="" id="" v-model="region" @click="updateList">
                 <option value="全部">-- 顯示全部 --</option>
                 <option @value="item" v-for="item in regions"> {{item}} </option>
             </select>
-            <div class="hot-area">
-                <h4 class="m-2">熱門行政區</h4>
+            <div class="input-group search">
+                <input type="text" class="form-control" placeholder="請輸入景點名稱" aria-label="" aria-describedby="basic-addon1" v-model="searchStr" @keyup.enter="searchData">
+                <div class="input-group-sm mt-2">
+                  <button class="btn btn-success" type="button" @click="searchData">搜尋</button>
+                </div>
+                </div>
+                <div class="hot-area">
+                    <h4 class="m-2">熱門行政區</h4>
                 <div class="btn-area">
                     <input type="button" class="btn btn-primary" value="苓雅區" @click="getVal(value)">
                     <input type="button" class="btn btn-secondary" value="三民區">
@@ -36,7 +42,7 @@
         <div class="container">
             <h2 class="text-center my-5"> {{region}} </h2>
             <div class="row data-area no-gutters">
-                <div class="col-6" v-for="item in viewPointPage">
+                <div class="col-lg-6 col-12" v-for="item in filterViewPoint">
                     <div class="box mx-3">
                         <div class="box-top" :style=" {backgroundImage: 'url('+ item.Picture1 +')'} ">
                             <h3> {{item.Name}} </h3>
@@ -60,7 +66,8 @@
                             <span class="sr-only">Previous</span>
                         </a>
                     </li>
-                    <li class="page-item" v-for="item in pageTotal"><a class="page-link" href="#!" @click="switchPage(item)"> {{item}} </a></li>
+                    <li class="page-item" :class=" {'active': nowPage == item}" v-for="item in pageTotal"><a class="page-link" href="#!"
+                            @click="switchPage(item)"> {{item}} </a></li>
                     <li class="page-item">
                         <a class="page-link" href="#!" aria-label="Next" @click="switchPage(nowPage+1)">
                             <span aria-hidden="true">&raquo;</span>
@@ -75,7 +82,7 @@
         <h2>高雄旅遊網</h2>
         <p>資料來源: 高雄市政府</p>
     </footer>
- 
+
     <!-- JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
     </script>

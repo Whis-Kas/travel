@@ -6,7 +6,7 @@ body{
 
 .bg-header {
     width: 100%;
-    height: 350px;
+    height: 600px;
     background: url(./assets/Hero.png) no-repeat;
     background-size: cover;
     color: #fff;
@@ -26,10 +26,18 @@ select{
     transform: translate(-50%,0);
     position: absolute;
 }
-.hot-area{
-    top: 80%;
+.search{
+    position: absolute;
+    top: 65%;
     left: 50%;
-    width: 800px;
+    width: 500px!important;
+    transform: translate(-50%,0);
+    
+}
+.hot-area{
+    top: 85%;
+    left: 50%;
+    /* width: 800px; */
     padding: 3px 5px;
     box-sizing: border-box;
     transform: translate(-50%,0);
